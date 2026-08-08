@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const fontFamilyClasses = [
 	'open-sans',
 	'ubuntu',
@@ -177,3 +179,9 @@ export const defaultArticleState = {
 };
 
 export type ArticleStateType = typeof defaultArticleState;
+
+export type ArticleParamsFormProps = {
+	articleParams: ArticleStateType;
+	setArticleParams: React.Dispatch<React.SetStateAction<ArticleStateType>>
+	onApply: () => void;
+};
