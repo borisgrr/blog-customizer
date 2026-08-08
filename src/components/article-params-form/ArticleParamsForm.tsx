@@ -2,7 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Select } from 'src/ui/select';
 import {
@@ -29,21 +29,44 @@ export const ArticleParamsForm = ({
 		setIsOpen((prev) => !prev);
 	};
 
+	const asideRef = useRef<HTMLElement | null>(null);
+	const arrowButtonRef = useRef<HTMLDivElement | null>(null);
+
 	const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		onApply();
 	};
 	const onResetForm = (e: React.FormEvent<HTMLFormElement>) => {
-		
 		e.preventDefault();
 		onReset();
 	};
 
+	const handleDocumentMouseDown = (e: MouseEvent) => {
+		if (e.target instanceof Node) {
+			if (
+				!asideRef.current?.contains(e.target) &&
+				!arrowButtonRef.current?.contains(e.target)
+			) {
+				setIsOpen(false);
+			}
+		}
+	};
+
+	useEffect(() => {
+		if (isOpen === true) {
+			document.addEventListener('mousedown', handleDocumentMouseDown);
+		}
+		return () => {
+			document.removeEventListener('mousedown', handleDocumentMouseDown);
+		};
+	}, [isOpen]);
+
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={formOpen} />
+			<ArrowButton isOpen={isOpen} onClick={formOpen} ref={arrowButtonRef} />
 
 			<aside
+				ref={asideRef}
 				className={clsx(styles.container, {
 					[styles.container_open]: isOpen,
 				})}>
@@ -117,7 +140,6 @@ export const ArticleParamsForm = ({
 							});
 						}}
 					/>
-
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
