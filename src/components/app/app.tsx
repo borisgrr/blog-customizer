@@ -27,6 +27,10 @@ export const App = () => {
 				articleParams={articleParams}
 				setArticleParams={setArticleParams}
 				onApply={() => setAppliedParams(articleParams)}
+				onReset={() => {
+					setAppliedParams(defaultArticleState);
+					setArticleParams(defaultArticleState);
+				}}
 			/>
 			<Article />
 		</main>

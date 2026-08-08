@@ -21,6 +21,7 @@ export const ArticleParamsForm = ({
 	articleParams,
 	setArticleParams,
 	onApply,
+	onReset,
 }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -32,6 +33,11 @@ export const ArticleParamsForm = ({
 		e.preventDefault();
 		onApply();
 	};
+	const onResetForm = (e: React.FormEvent<HTMLFormElement>) => {
+		
+		e.preventDefault();
+		onReset();
+	};
 
 	return (
 		<>
@@ -41,7 +47,10 @@ export const ArticleParamsForm = ({
 				className={clsx(styles.container, {
 					[styles.container_open]: isOpen,
 				})}>
-				<form className={styles.form} onSubmit={onSubmitForm}>
+				<form
+					className={styles.form}
+					onSubmit={onSubmitForm}
+					onReset={onResetForm}>
 					<Text
 						size={31}
 						weight={800}
