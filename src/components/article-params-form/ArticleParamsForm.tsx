@@ -11,15 +11,15 @@ import {
 	fontColors,
 	fontFamilyOptions,
 	fontSizeOptions,
+	ArticleParamsFormProps,
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 import { Text } from 'src/ui/text';
-import { ArticleParamsFormProps } from 'src/constants/articleProps';
 
 export const ArticleParamsForm = ({
-	articleParams,
-	setArticleParams,
+	formState,
+	setFormState,
 	onApply,
 	onReset,
 }: ArticleParamsFormProps) => {
@@ -41,21 +41,24 @@ export const ArticleParamsForm = ({
 		onReset();
 	};
 
-	const handleDocumentMouseDown = (e: MouseEvent) => {
-		if (e.target instanceof Node) {
-			if (
-				!asideRef.current?.contains(e.target) &&
-				!arrowButtonRef.current?.contains(e.target)
-			) {
-				setIsOpen(false);
-			}
-		}
-	};
-
 	useEffect(() => {
-		if (isOpen === true) {
-			document.addEventListener('mousedown', handleDocumentMouseDown);
+		if (!isOpen) {
+			return;
 		}
+
+		const handleDocumentMouseDown = (e: MouseEvent) => {
+			if (e.target instanceof Node) {
+				if (
+					!asideRef.current?.contains(e.target) &&
+					!arrowButtonRef.current?.contains(e.target)
+				) {
+					setIsOpen(false);
+				}
+			}
+		};
+
+		document.addEventListener('mousedown', handleDocumentMouseDown);
+
 		return () => {
 			document.removeEventListener('mousedown', handleDocumentMouseDown);
 		};
@@ -85,21 +88,21 @@ export const ArticleParamsForm = ({
 					/>
 					<Select
 						options={fontFamilyOptions}
-						selected={articleParams.fontFamilyOption}
+						selected={formState.fontFamilyOption}
 						title='ШРИФТ'
 						onChange={(value) => {
-							setArticleParams({
-								...articleParams,
+							setFormState({
+								...formState,
 								fontFamilyOption: value,
 							});
 						}}
 					/>
 					<RadioGroup
 						options={fontSizeOptions}
-						selected={articleParams.fontSizeOption}
+						selected={formState.fontSizeOption}
 						onChange={(value) => {
-							setArticleParams({
-								...articleParams,
+							setFormState({
+								...formState,
 								fontSizeOption: value,
 							});
 						}}
@@ -108,11 +111,11 @@ export const ArticleParamsForm = ({
 					/>
 					<Select
 						options={fontColors}
-						selected={articleParams.fontColor}
+						selected={formState.fontColor}
 						title='ЦВЕТ ШРИФТА'
 						onChange={(value) => {
-							setArticleParams({
-								...articleParams,
+							setFormState({
+								...formState,
 								fontColor: value,
 							});
 						}}
@@ -120,22 +123,22 @@ export const ArticleParamsForm = ({
 					<Separator />
 					<Select
 						options={backgroundColors}
-						selected={articleParams.backgroundColor}
+						selected={formState.backgroundColor}
 						title='ЦВЕТ ФОНА'
 						onChange={(value) => {
-							setArticleParams({
-								...articleParams,
+							setFormState({
+								...formState,
 								backgroundColor: value,
 							});
 						}}
 					/>
 					<Select
 						options={contentWidthArr}
-						selected={articleParams.contentWidth}
+						selected={formState.contentWidth}
 						title='ШИРИНА КОНТЕНТА'
 						onChange={(value) => {
-							setArticleParams({
-								...articleParams,
+							setFormState({
+								...formState,
 								contentWidth: value,
 							});
 						}}

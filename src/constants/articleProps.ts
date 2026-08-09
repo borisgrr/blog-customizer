@@ -181,8 +181,8 @@ export const defaultArticleState = {
 export type ArticleStateType = typeof defaultArticleState;
 
 export type ArticleParamsFormProps = {
-	articleParams: ArticleStateType;
-	setArticleParams: React.Dispatch<React.SetStateAction<ArticleStateType>>;
+	formState: ArticleStateType;
+	setFormState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
 	onApply: () => void;
 	onReset: () => void;
 };

@@ -8,9 +8,16 @@ import { defaultArticleState } from './../../constants/articleProps';
 import styles from './app.module.scss';
 
 export const App = () => {
-	const [articleParams, setArticleParams] = useState(defaultArticleState);
+	const [formState, setFormState] = useState(defaultArticleState);
 
 	const [appliedParams, setAppliedParams] = useState(defaultArticleState);
+
+	const onApplyForm = () => setAppliedParams(formState);
+	const onResetForm = () => {
+		setAppliedParams(defaultArticleState);
+		setFormState(defaultArticleState);
+	};
+
 	return (
 		<main
 			className={clsx(styles.main)}
@@ -24,13 +31,10 @@ export const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				articleParams={articleParams}
-				setArticleParams={setArticleParams}
-				onApply={() => setAppliedParams(articleParams)}
-				onReset={() => {
-					setAppliedParams(defaultArticleState);
-					setArticleParams(defaultArticleState);
-				}}
+				formState={formState}
+				setFormState={setFormState}
+				onApply={onApplyForm}
+				onReset={onResetForm}
 			/>
 			<Article />
 		</main>
